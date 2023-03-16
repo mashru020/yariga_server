@@ -3,6 +3,8 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 
 import connectDB from './mongodb/connect.js';
+
+// /api/v1/properties/create
 dotenv.config();
 
 const app = express();
