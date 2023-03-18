@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Porperty from "../mongodb/models/property.js";
+import Property from "../mongodb/models/property.js";
 import User from "../mongodb/models/user.js";
 
 import * as dotenv from 'dotenv';
@@ -14,7 +14,14 @@ cloudinary.config({
 })
 
 
-const getAllProperties = async (req, res) => {};
+const getAllProperties = async (req, res) => {
+    try {
+        const properties = await Property.find({}).limit(req.query._end);
+        res.status(200).json(properties);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+};
 const getPropertyDetail = async (req, res) => {};
 
 const createProperty = async (req, res) => {
@@ -34,7 +41,7 @@ const createProperty = async (req, res) => {
         // const photoUrl = ...
         const photoUrl = await cloudinary.uploader.upload(photo);
     
-        const newProperty = await Porperty.create({
+        const newProperty = await Property.create({
             title,
             description,
             propertyType,
