@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
 import Property from "../mongodb/models/property.js";
 import User from "../mongodb/models/user.js";
+
+import mongoose from "mongoose";
 
 import * as dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
@@ -30,14 +31,13 @@ const getAllProperties = async (req, res) => {
 
         // const properties = await Property.find({}).limit(req.query._end);
         
-        const properties = await Property
-            .find(query)
+        const properties = await Property.find(query)
             .limit(_end)
             .skip(_start)
             .sort({ [_sort]: _order});
         
         res.header('x-total-count', count);
-        res.header('Access-Contorl-Expose-Headers', 'x-total-count');
+        res.header('Access-Control-Expose-Headers', 'x-total-count');
         
         res.status(200).json(properties);
     } catch (error) {
