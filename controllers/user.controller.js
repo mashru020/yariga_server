@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
         const newUser = await User.create({
             name,
             email,
-            avatar,
+            avatar, 
         })
         res.status(200).json(newUser);
     } catch (error) {
@@ -28,13 +28,19 @@ const createUser = async (req, res) => {
 
 };
 const getUserInfoById = async (req, res) => {
-    const { id } = req.params;
-
-    const user = await User.findOne({_id: id}).populate('AllProperties');
+    try {
+        const { id } = req.params;
+        const user = await User.findOne({ _id: id }).populate("allProperties");
     
-    if(user) res.status(200).json(user);
+        if(user){
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({message: "User not found"});
+        }
 
-    res.status(404).json({message: "User not found"})
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+    }
  };
 
 export {
